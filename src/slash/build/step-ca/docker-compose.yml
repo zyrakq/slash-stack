@@ -1,0 +1,30 @@
+x-logging: &default-logging
+  driver: "json-file"
+  options:
+    max-size: "${LOG_MAX_SIZE:-10m}"
+    max-file: "${LOG_MAX_FILE:-3}"
+    compress: "${LOG_COMPRESS:-true}"
+services:
+  slash:
+    container_name: slash
+    image: yourselfhosted/slash:latest
+    restart: unless-stopped
+    logging: *default-logging
+    volumes:
+      - slash-data:/var/opt/slash
+    networks:
+      - slash-network
+      - step-ca-network
+    environment:
+      VIRTUAL_PORT: ${VIRTUAL_PORT}
+      VIRTUAL_HOST: ${VIRTUAL_HOST}
+      LETSENCRYPT_HOST: ${LETSENCRYPT_HOST}
+      LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
+volumes:
+  slash-data:
+    name: slash-data
+networks:
+  slash-network:
+    name: slash-network
+  step-ca-network:
+    external: true

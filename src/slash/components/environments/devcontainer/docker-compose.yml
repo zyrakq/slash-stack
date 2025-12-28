@@ -1,0 +1,8 @@
+services:
+  slash:
+    networks:
+      - slash-workspace-network
+
+networks:
+  slash-workspace-network:
+    external: true

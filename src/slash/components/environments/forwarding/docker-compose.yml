@@ -1,0 +1,4 @@
+services:
+  slash:
+    ports:
+      - 5231:5231

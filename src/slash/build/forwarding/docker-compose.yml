@@ -1,0 +1,24 @@
+x-logging: &default-logging
+  driver: "json-file"
+  options:
+    max-size: "${LOG_MAX_SIZE:-10m}"
+    max-file: "${LOG_MAX_FILE:-3}"
+    compress: "${LOG_COMPRESS:-true}"
+services:
+  slash:
+    container_name: slash
+    image: yourselfhosted/slash:latest
+    restart: unless-stopped
+    logging: *default-logging
+    volumes:
+      - slash-data:/var/opt/slash
+    networks:
+      - slash-network
+    ports:
+      - 5231:5231
+volumes:
+  slash-data:
+    name: slash-data
+networks:
+  slash-network:
+    name: slash-network
